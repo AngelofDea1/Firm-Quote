@@ -1,0 +1,116 @@
+{
+  "network": "xlayerTestnet",
+  "chainId": 1952,
+  "deployedAt": "2026-08-21T18:19:46.433Z",
+  "deployer": "0x1Fed0a927CB130c838aaAAA907F04c4d5b4247CC",
+  "explorer": "https://www.oklink.com/xlayer-test",
+  "demoFlaggedWallet": "0x39fa2bb0D3E88B55Ef9722C336870e8FB7B5e463",
+  "shared": {
+    "settlementAsset": "0xB0C0b13c284F10A899E0869280FDE38ca70FBaC8",
+    "reputationGate": "0x26fb738fDA9919C3bc79ebad312c91241E735703",
+    "exitLiquidityPool": "0xe45bA5D3cC8c76FeAE2b9Ebb9B47BE7b240E9666"
+  },
+  "deals": [
+    {
+      "id": "northwind",
+      "name": "Northwind Logistics",
+      "blurb": "A haulage company owed money on delivered freight invoices.",
+      "assetLabel": "INV-2026-Q3-HAULAGE-001",
+      "assetId": "0xaafd79fb0645560d8022deab262fd3f81b851bf75b53c1fa0cef6e98213088b3",
+      "counterparty": "0x4095B36382D1b4035302cF21140E1ebA356023AA",
+      "maturity": 1795112238,
+      "maturityDays": 90,
+      "seed": "open",
+      "awaitingOpinion": true,
+      "targetSenior": 800000,
+      "targetJunior": 200000,
+      "predictedDefaultBps": 800,
+      "actualDefaultBps": null,
+      "contracts": {
+        "underwriterVault": "0xf6550eFd5528Ecf44103C27c7A8ED1dC4330a6F4",
+        "trancheVault": "0xc82716Beb3f8EBd9d5c61A651CC22795CCD6A924",
+        "seniorTranche": "0x68499E052a3C0513d33D76bedeEEc233cc678606",
+        "juniorTranche": "0x43ed7a1981b9BEE3621Ce2D9b9B86F56170668a6"
+      }
+    },
+    {
+      "id": "harbourside",
+      "name": "Harbourside Cold Chain",
+      "blurb": "Refrigerated storage and distribution receivables from grocery chains.",
+      "assetLabel": "INV-2026-Q3-COLDCHAIN-002",
+      "assetId": "0xa546040aee7ee6c6c639ff332d4cc8246d2f39b82ce9a1833cec658aec51dd64",
+      "counterparty": "0x9AF8967c31a21Bee7bfF2bb11Ee1d9afb2E3c0d8",
+      "maturity": 1792520274,
+      "maturityDays": 60,
+      "seed": "funded",
+      "awaitingOpinion": false,
+      "targetSenior": 1200000,
+      "targetJunior": 300000,
+      "predictedDefaultBps": 450,
+      "actualDefaultBps": null,
+      "contracts": {
+        "underwriterVault": "0x4652fE1B80b59A7e62f4d2F0fd83E8A4B2623736",
+        "trancheVault": "0xFF12676E07061b45445D9C873A801E859421a04b",
+        "seniorTranche": "0x9373DA03124462833E7Cff62D64090aA13db2B84",
+        "juniorTranche": "0x9345f2bfFa11A3C163f8545f877f96E33E2b3508"
+      }
+    },
+    {
+      "id": "meridian",
+      "name": "Meridian Agri Supply",
+      "blurb": "Seed and fertiliser invoices to farm cooperatives, seasonal and well secured.",
+      "assetLabel": "INV-2026-Q3-AGRI-004",
+      "assetId": "0x2bea0bc129763ff7c6e57b50017b93123ca0250b1a80d00c9c06b98f30e15bdf",
+      "counterparty": "0xE1A904EC775FFDFb5ebe8bea0fC8ba3eB10d9123",
+      "maturity": 1797704316,
+      "maturityDays": 120,
+      "seed": "funded",
+      "awaitingOpinion": false,
+      "targetSenior": 600000,
+      "targetJunior": 150000,
+      "predictedDefaultBps": 275,
+      "actualDefaultBps": null,
+      "contracts": {
+        "underwriterVault": "0xEf1F0f95Fd14A312568B06E075BA34FCF97f9A0A",
+        "trancheVault": "0xc9B3A926d59F4D1b3b6bB1c216E2e6Af51eC2950",
+        "seniorTranche": "0x7b681408A4Be9E37Ff29674144e0Acace17a5Ad8",
+        "juniorTranche": "0x2dB0927ff2573f12aEf09Fa137E2A9582Fd41008"
+      }
+    },
+    {
+      "id": "ferrous",
+      "name": "Ferrous Metals Trading",
+      "blurb": "Scrap metal export invoices. This one already matured, and it went badly.",
+      "assetLabel": "INV-2026-Q1-METALS-003",
+      "assetId": "0x5e1ffd676099067e3d8e4f77af1f3bd4948c39d60889a14f8b4c31eeef8748d2",
+      "counterparty": "0x96425FfB59a1b7e9B4a080aF731cf110135E460c",
+      "maturity": 1787422759,
+      "maturityDays": 1,
+      "seed": "settled",
+      "awaitingOpinion": false,
+      "targetSenior": 400000,
+      "targetJunior": 100000,
+      "predictedDefaultBps": 600,
+      "actualDefaultBps": 2400,
+      "contracts": {
+        "underwriterVault": "0x53b09D09e25029CC2B63b0F0727C5014f7B994D6",
+        "trancheVault": "0x6EbA36D15e8224fA9F8105BAc8E4Cbf1d3DdCa39",
+        "seniorTranche": "0xd2818Ee2Febb6EDFf453Fd7Ab7cB79B4771B98b7",
+        "juniorTranche": "0x7D02870801ed1E7101625074Fd158f264F382eD0"
+      }
+    }
+  ],
+  "assetLabel": "INV-2026-Q3-HAULAGE-001",
+  "assetId": "0xaafd79fb0645560d8022deab262fd3f81b851bf75b53c1fa0cef6e98213088b3",
+  "counterparty": "0x4095B36382D1b4035302cF21140E1ebA356023AA",
+  "maturity": 1795112238,
+  "contracts": {
+    "settlementAsset": "0xB0C0b13c284F10A899E0869280FDE38ca70FBaC8",
+    "reputationGate": "0x26fb738fDA9919C3bc79ebad312c91241E735703",
+    "underwriterVault": "0xf6550eFd5528Ecf44103C27c7A8ED1dC4330a6F4",
+    "trancheVault": "0xc82716Beb3f8EBd9d5c61A651CC22795CCD6A924",
+    "exitLiquidityPool": "0xe45bA5D3cC8c76FeAE2b9Ebb9B47BE7b240E9666",
+    "seniorTranche": "0x68499E052a3C0513d33D76bedeEEc233cc678606",
+    "juniorTranche": "0x43ed7a1981b9BEE3621Ce2D9b9B86F56170668a6"
+  }
+}

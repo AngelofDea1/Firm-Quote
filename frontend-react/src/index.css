@@ -1,0 +1,293 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Firm Quote design system
+
+   Written after an audit found six corner radii, two border widths, twelve
+   type sizes and six greys applied with no rule across 87 boxes. That is why
+   the cards looked mismatched. Everything below exists to make one decision
+   once, in one place, instead of eighty-seven times.
+   ========================================================================== */
+
+@layer base {
+  :root {
+    /* Two radii. Cards get one, controls get the other. Nothing else. */
+    --r-card: 16px;
+    --r-control: 10px;
+
+    /* One border colour and one width. */
+    --line: #e6e8ec;
+
+    /* Text. Every value here clears 4.5:1 on white.
+       The old text-gray-400 was about 2.8:1, which is why copy looked faded. */
+    --ink: #0b0d12;      /* headings */
+    --ink-body: #454b57; /* body copy */
+    --ink-muted: #6b7280; /* labels and captions, the lightest we allow */
+
+    --accent: #0b0d12;
+    --positive: #067a54;
+    --negative: #b3261e;
+    --warning: #8a5a00;
+  }
+
+  body {
+    @apply bg-white antialiased selection:bg-black selection:text-white;
+    color: var(--ink-body);
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+      Helvetica, Arial, sans-serif;
+    scrollbar-gutter: stable;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--ink);
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+
+  p { text-wrap: pretty; }
+
+  /* Focus that is visible without being ugly.
+     :focus-visible only fires for keyboard and assistive tech, never for a mouse
+     click, so this is the ring keyboard users need without a ring appearing every
+     time somebody taps a button with a pointer. */
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /*
+     There was a `button:focus { outline: none }` here.
+
+     It was presumably added to stop a ring appearing on mouse clicks, but :focus
+     also fires for keyboard navigation, so it removed the only visible indication
+     of where the keyboard was for every button that is not a .btn: the whole navbar,
+     the whole footer, the tranche pickers. That is WCAG 2.4.7 Focus Visible, a
+     straight AA failure, and it makes the site unusable without a mouse.
+
+     Nothing replaces it. :focus-visible above already solves the problem it was
+     trying to solve.
+  */
+
+  /* Skip link. First thing a keyboard or screen reader user meets, so they are not
+     forced through the entire navbar on every single page. */
+  .skip-link {
+    position: absolute; left: -9999px; top: 0; z-index: 100;
+    padding: 12px 20px; background: var(--ink); color: #fff;
+    border-radius: 0 0 var(--r-control) 0; font-weight: 650;
+  }
+  .skip-link:focus { left: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   NUMBERS
+
+   The old build set every figure in DM Mono, which draws a zero with a
+   diagonal slash through it. Numbers are now set in the body sans with
+   tabular lining figures: they still align in columns, and the zero is a
+   plain oval. No monospace, no slash, and one less webfont to download.
+   -------------------------------------------------------------------------- */
+.font-mono,
+.num {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif !important;
+  font-variant-numeric: tabular-nums lining-nums !important;
+  font-feature-settings: 'tnum' 1, 'lnum' 1, 'zero' 0 !important;
+  letter-spacing: -0.01em;
+}
+
+/* Addresses and hashes only. Long hex is easier to scan and compare when the
+   characters are fixed width, and a slashed zero is genuinely useful there. */
+.hash {
+  font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.875em;
+  letter-spacing: -0.02em;
+  color: var(--ink-muted);
+  word-break: break-all;
+}
+
+/* --------------------------------------------------------------------------
+   COMPONENTS
+   Applied by class so a change here reaches every box at once.
+   -------------------------------------------------------------------------- */
+@layer components {
+  /* ---- surfaces ---- */
+  .card {
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-card);
+  }
+  .card-pad { padding: 24px; }
+  .card-hd {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* One inverted panel style, used sparingly. The previous build wrapped most
+     content in black, which flattened the hierarchy and made everything shout. */
+  .panel-dark {
+    background: var(--ink);
+    color: #fff;
+    border-radius: var(--r-card);
+  }
+  .panel-dark h1, .panel-dark h2, .panel-dark h3, .panel-dark h4 { color: #fff; }
+
+  .panel-soft {
+    background: #f7f8f9;
+    border: 1px solid var(--line);
+    border-radius: var(--r-card);
+  }
+
+  /* ---- type scale, six steps, nothing bigger ---- */
+  .t-display { font-size: clamp(32px, 4.6vw, 52px); line-height: 1.08; font-weight: 800; }
+  .t-h1 { font-size: clamp(26px, 3.2vw, 36px); line-height: 1.15; font-weight: 750; }
+  .t-h2 { font-size: 22px; line-height: 1.25; font-weight: 700; }
+  .t-h3 { font-size: 17px; line-height: 1.35; font-weight: 650; }
+  .t-body { font-size: 15px; line-height: 1.65; color: var(--ink-body); }
+  .t-small { font-size: 13.5px; line-height: 1.55; color: var(--ink-muted); }
+  .t-label {
+    font-size: 12px; font-weight: 650; letter-spacing: 0.02em;
+    color: var(--ink-muted);
+  }
+
+  /* --------------------------------------------------------------------------
+     BUTTONS: one press mechanic, two weights
+
+     Every button on this site is physically the same object: it sits raised on a
+     solid bottom edge, and pressing it travels down onto that edge until the edge
+     is gone. Primary and secondary differ only in colour, never in behaviour, so
+     they read as a matched pair rather than two unrelated designs.
+
+     Why a solid offset rather than a blurred drop shadow: a hard edge reads as a
+     physical lip you can push, and it survives on any background. A soft shadow
+     reads as float, which is the opposite of pressable, and it smears during the
+     transform.
+
+     The travel distance and the shadow shrink by the same 3px, so the top face
+     lands exactly where the bottom edge was. Anything else looks like it slid.
+     -------------------------------------------------------------------------- */
+  .btn {
+    --btn-lip: #d4d7dd;
+    --btn-travel: 3px;
+
+    position: relative;
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    min-height: 44px; padding: 0 20px;
+    font-size: 15px; font-weight: 650; line-height: 1;
+    border-radius: var(--r-control);
+    border: 1px solid var(--line);
+    background: #fff; color: var(--ink);
+    cursor: pointer; white-space: nowrap;
+    box-shadow: 0 var(--btn-travel) 0 0 var(--btn-lip);
+    transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.15s, border-color 0.15s;
+  }
+  .btn:hover:not(:disabled) { background: #f7f8f9; border-color: #c9cdd5; }
+
+  /* The press itself. Travel down by exactly the lip height so the face lands on it. */
+  .btn:active:not(:disabled) {
+    transform: translateY(var(--btn-travel));
+    box-shadow: 0 0 0 0 var(--btn-lip);
+  }
+
+  /* Keyboard users get the same press, so the interaction is not mouse-only. */
+  .btn:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .btn:disabled {
+    opacity: 0.4; cursor: not-allowed;
+    box-shadow: 0 var(--btn-travel) 0 0 #e6e8ec;
+  }
+
+  .btn-primary {
+    background: var(--ink); border-color: var(--ink); color: #fff;
+    --btn-lip: #55596a; /* the same ink, darkened, so the lip reads as one object */
+  }
+  .btn-primary:hover:not(:disabled) { background: #23262e; border-color: #23262e; }
+  .btn-primary:focus-visible { outline-color: var(--ink); }
+
+  /* Destructive keeps the mechanic and only changes the hue. */
+  .btn-danger {
+    background: var(--negative); border-color: var(--negative); color: #fff;
+    --btn-lip: #7c1a15;
+  }
+
+  .btn-lg { min-height: 52px; padding: 0 26px; font-size: 16px; --btn-travel: 4px; }
+  .btn-sm { min-height: 36px; padding: 0 14px; font-size: 13.5px; --btn-travel: 2px; }
+  .btn-block { width: 100%; }
+
+  /* A press that lands under a finger needs no hover state to be understood, but
+     it must not feel dead. Touch devices get the travel without the hover colour. */
+  @media (hover: none) {
+    .btn:hover:not(:disabled) { background: inherit; }
+  }
+
+  /* Text-only action. Used where a control must not compete with a real button,
+     and deliberately not styled like one so the hierarchy stays honest. */
+  .btn-quiet {
+    background: none; border: none; box-shadow: none; padding: 0;
+    min-height: 0; font-size: 13.5px; font-weight: 600;
+    color: var(--ink-muted);
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .btn-quiet:hover:not(:disabled) { background: none; color: var(--ink); }
+  .btn-quiet:active:not(:disabled) { transform: none; box-shadow: none; }
+
+  /* ---- inputs ---- */
+  .field { display: grid; gap: 6px; }
+  .input,
+  select.input {
+    width: 100%; min-height: 44px; padding: 0 12px;
+    font-size: 15px; color: var(--ink);
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: var(--r-control);
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .input:hover { border-color: #d4d7dd; }
+  .input:focus {
+    outline: none;
+    border-color: var(--ink);
+    box-shadow: 0 0 0 3px rgba(11, 13, 18, 0.06);
+  }
+  select.input {
+    appearance: none; cursor: pointer; padding-right: 36px;
+    background-image: linear-gradient(45deg, transparent 50%, var(--ink-muted) 50%),
+      linear-gradient(135deg, var(--ink-muted) 50%, transparent 50%);
+    background-position: calc(100% - 18px) 20px, calc(100% - 13px) 20px;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  /* ---- key value rows, used wherever figures are listed ---- */
+  .kv { display: grid; grid-template-columns: 1fr auto; gap: 10px 20px; align-items: baseline; }
+  .kv dt { font-size: 14px; color: var(--ink-muted); }
+  .kv dd {
+    margin: 0; font-size: 14px; color: var(--ink);
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+
+  /* ---- status pills ---- */
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px;
+    font-size: 12.5px; font-weight: 650;
+    border: 1px solid var(--line); background: #fff; color: var(--ink-muted);
+  }
+  .pill-ok { border-color: #b8e2d1; background: #f0faf6; color: var(--positive); }
+  .pill-no { border-color: #f2c4c1; background: #fdf4f3; color: var(--negative); }
+  .pill-wait { border-color: #ecd9ab; background: #fdf9f0; color: var(--warning); }
+}
+
+/* Respect reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

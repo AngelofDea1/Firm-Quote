@@ -1,0 +1,72 @@
+# ============================================================================
+#  Firm Quote, one service
+# ============================================================================
+#
+# The orchestrator serves the built React site itself, so the API and the website
+# are the same origin. That means no CORS configuration, no second deploy to keep
+# in sync, and no separate API base URL baked into the frontend bundle.
+#
+# The build step does three things, and all three are required:
+#
+#   1. npm ci                 installs the backend and hardhat
+#   2. npx hardhat compile    writes artifacts/, which is where the server reads
+#                             contract ABIs from. artifacts/ is gitignored because
+#                             it is build output, so without this the server starts
+#                             and then dies on the first ABI lookup.
+#   3. npm run build:site     builds frontend-react/dist, also gitignored, also
+#                             build output rather than source.
+#
+# Secrets are set in the Render dashboard, never in this file. Anything marked
+# sync:false below is deliberately left blank here so it cannot be committed.
+
+services:
+  - type: web
+    name: firm-quote
+    runtime: node
+    plan: free
+    region: oregon
+
+    # USE_SOLCJS=1 is load bearing, not a preference.
+    #
+    # Plain `hardhat compile` downloads a solc binary from binaries.soliditylang.org
+    # at build time. When that download is blocked, slow or rate limited the build
+    # fails, and a failed build on Render does not take the site down: it silently
+    # keeps serving the last deploy that worked. So the symptom is not an error page,
+    # it is a site that quietly stops updating while every push looks fine.
+    #
+    # solc-js is already in node_modules from npm ci, so this compiles with no
+    # network at all and the build is reproducible.
+    buildCommand: npm ci && USE_SOLCJS=1 npx hardhat compile && npm run build:site
+    startCommand: npm start
+
+    # Returns 200 even when the RPC endpoint is unreachable. A restart cannot fix
+    # somebody else's node, so an unreachable chain must not cycle the container.
+    healthCheckPath: /healthz
+
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+
+      # Which deployments/<name>.json the server loads. Set to xlayer for mainnet.
+      - key: NETWORK
+        value: xlayerTestnet
+
+      # Signs the oracle transactions the console triggers. The server checks
+      # ORACLE_PRIVATE_KEY first and falls back to DEPLOYER_PRIVATE_KEY, so setting
+      # either one works. Paste the value in the dashboard, never in this file.
+      - key: DEPLOYER_PRIVATE_KEY
+        sync: false
+
+      # OKX DEX aggregator, v6. Without these the volume and swap routes degrade
+      # rather than fail, so the site still works if you leave them unset.
+      - key: OKX_API_KEY
+        sync: false
+      - key: OKX_SECRET_KEY
+        sync: false
+      - key: OKX_API_PASSPHRASE
+        sync: false
+
+      # Optional. Unset means the risk engine runs deterministic only, which is
+      # still a complete demo, just without the written reasoning.
+      - key: ANTHROPIC_API_KEY
+        sync: false

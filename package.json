@@ -1,0 +1,52 @@
+{
+  "name": "firm-quote",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Firm Quote - AI credit opinions that are firm, not indicative. Staked AI underwriting + AI-priced exit liquidity for tokenised real-world credit, on X Layer.",
+  "scripts": {
+    "build": "hardhat compile",
+    "build:offline": "USE_SOLCJS=1 hardhat compile",
+    "test": "hardhat test",
+    "test:offline": "USE_SOLCJS=1 hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy.js --network localhost",
+    "deploy:testnet": "hardhat run scripts/deploy.js --network xlayerTestnet",
+    "deploy:mainnet": "hardhat run scripts/deploy.js --network xlayer",
+    "seed:local": "hardhat run scripts/seed-demo.js --network localhost",
+    "seed:testnet": "hardhat run scripts/seed-demo.js --network xlayerTestnet",
+    "demo:local": "hardhat run scripts/demo.js --network localhost",
+    "demo:testnet": "hardhat run scripts/demo.js --network xlayerTestnet",
+    "site:install": "npm --prefix frontend-react install",
+    "site:build": "npm --prefix frontend-react run build",
+    "site:dev": "npm --prefix frontend-react run dev",
+    "start": "node backend/src/orchestrator.js",
+    "serve": "node backend/src/orchestrator.js",
+    "chain": "hardhat node",
+    "setup:local": "npm run deploy:local && npm run seed:local",
+    "okx:selftest": "node backend/src/okx/dexClient.js --selftest",
+    "preflight:local": "hardhat run scripts/preflight.js --network localhost",
+    "preflight:testnet": "hardhat run scripts/preflight.js --network xlayerTestnet",
+    "preflight:mainnet": "hardhat run scripts/preflight.js --network xlayer",
+    "env:check": "node scripts/check-env.js",
+    "wallet:new": "node scripts/new-deployer.js",
+    "build:site": "npm --prefix frontend-react ci && npm --prefix frontend-react run build",
+    "render-build": "npm run build:site",
+    "check:script": "node scripts/check-script.js",
+    "check:mock": "node scripts/check-mock.js"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.0.2",
+    "dotenv": "^16.4.7",
+    "ethers": "^6.13.4"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.0.8",
+    "@nomicfoundation/hardhat-ethers": "^3.0.8",
+    "chai": "^4.5.0",
+    "hardhat": "^2.22.17",
+    "solc": "0.8.24"
+  },
+  "engines": {
+    "node": ">=20 <23"
+  }
+}

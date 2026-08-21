@@ -1,0 +1,25 @@
+node_modules/
+artifacts/
+cache/
+typechain-types/
+coverage/
+coverage.json
+
+.env
+.env.*
+!.env.example
+
+# Deployment records ARE meant to be committed - they are how the judges verify what
+# you actually shipped. Only local throwaways are ignored.
+deployments/localhost.json
+deployments/hardhat.json
+
+.DS_Store
+*.log
+
+# Stale build backups
+frontend-react/dist.backup*
+*.DS_Store
+.DS_Store
+DEMO-SHORT.md
+TWEET-THREAD.md
